@@ -2,7 +2,7 @@ import React from 'react';
 
 const Boutique = () => {
     return (
-        <div>
+        <div className='Boutique'>
             Boutique works !
         </div>
     );

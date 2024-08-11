@@ -7,19 +7,26 @@ import Boutique from '@/pages/Boutique';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Error from '@/_utils/Error';
+import Layout from '@/pages/Layout';
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route index element={<Home/>}/>
 
-          <Route path="/accueil" element={<Home/>}/>
-          <Route path="/contact" element={<Contact/>}/>
-          <Route path="/boutique" element={<Boutique/>}/>
+          <Route element={<Layout/>}>
 
-          <Route path='*' element={<Error/>}/>
+            <Route index element={<Home/>}/>
+
+            <Route path="/home" element={<Home/>}/>
+            <Route path="/contact" element={<Contact/>}/>
+            <Route path="/boutique" element={<Boutique/>}/>
+
+            <Route path='*' element={<Error/>}/>
+
+          </Route>
+
         </Routes>
       </BrowserRouter>
     </div>
