@@ -1,14 +1,12 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom'
 
-import Layout from '@/pages/Public/Layout';
-import Home from '@/pages/Public/Home';
-import Contact from '@/pages/Public/Contact';
-import Boutique from '@/pages/Public/Boutique';
+
+import { Layout, Home, Contact, Boutique } from '@/pages/Public'
 import Error from '@/_utils/Error';
 
 // Routage du site
-const PublicRoute = () => {
+const PublicRouter = () => {
     return (
         <Routes>
 
@@ -28,4 +26,4 @@ const PublicRoute = () => {
     );
 };
 
-export default PublicRoute;
+export default PublicRouter;
