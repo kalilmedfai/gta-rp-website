@@ -6,7 +6,15 @@
     text-align: center;
     line-height: 50px;
     background-color: aliceblue;
+    display: flex;
+    justify-content: space-between;
 }
+
+.AHeader button {
+    width: 80px;
+    height: 20px;
+}
+
 .SideMenu {
     flex-grow: 1;
     border-right: solid 1px gray;
