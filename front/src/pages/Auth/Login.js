@@ -1,9 +1,13 @@
 import React, {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
+
+import { accountService } from '@/_services/accountService';
 
 import './auth.css'
 
 const Login = () => {
+    let navigate = useNavigate()
 
     const [credentials, setCredentials] = useState({
         email: '',
@@ -22,13 +26,15 @@ const Login = () => {
     const onSubmit = (e) => {
         e.preventDefault()
         console.log(credentials)
-        // accountService.login(credentials)
-        //     .then(res => {
-        //         // Sauvegarde du token et envoi vers admin
-        //         accountService.saveToken(res.data.access_token)
-        //         navigate('/admin', {replace: true})
-        //     })
-        //     .catch(error => console.log(error))
+        axios.post('http://localhost:5000/auth/login', credentials)
+            .then(res => {
+                console.log(res)
+                // permet s'enregistrer le token dans le local storage (f12 + appli + lien en desous de "stockage local")
+                accountService.saveToken(res.data.access_token)
+                // demande de navigation vers /admin
+                navigate('/admin')
+            })
+            .catch(error => console.log(error))
     }
 
     return (

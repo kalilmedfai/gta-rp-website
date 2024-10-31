@@ -1,13 +1,10 @@
-// import React from 'react';
-
 import { Navigate } from "react-router-dom";
+import { accountService } from "@/_services/accountService";
 
 const AuthGuard = ({children}) => {
-    // Simulation système de log
-    let logged = false
 
-    // si pas logged redirection vers login
-    if(!logged) {
+    // demande si il est loggé
+    if(!accountService.isLogged()) {
         return <Navigate to="/auth/login"/>
     }
 
