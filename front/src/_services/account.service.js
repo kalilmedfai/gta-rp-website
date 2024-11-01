@@ -1,3 +1,10 @@
+import Axios from "./caller.service"
+
+// methode login reçois les identifiants
+let login = (credentials) => {
+    return Axios.post('auth/login', credentials)
+}
+
 // Enregistrement du token dans le local storage
 let saveToken = (token) => {
     localStorage.setItem('token', token)
@@ -18,5 +25,5 @@ let isLogged = () => {
 
 // objet qui contient saveToken, logout, isLoged
 export const accountService = {
-    saveToken, logout, isLogged
+    login, saveToken, logout, isLogged
 }

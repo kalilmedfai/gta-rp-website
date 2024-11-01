@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { accountService } from '../../_services/accountService';
+import { accountService } from '../../_services/account.service';
 
 const Header = () => {
     let navigate = useNavigate()
