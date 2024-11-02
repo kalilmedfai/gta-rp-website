@@ -12,9 +12,10 @@ let router = express.Router()
 // Get pour tous les utilisateurs
 router.get('', (req, res) => {
     User.findAll()
-    .then( users, res.json({ data: users}))
-    .then( err => res.status(500).json({ message: 'Database Error'})) 
-})
+        .then(users => res.json({ data: users }))
+        .catch(err => res.status(500).json({ message: 'Database Error' }));
+});
+
 
 // Get pour un utilisateur précisé par un id, et l'id est présent dans l'url
 router.get('/:id', (req, res) => {

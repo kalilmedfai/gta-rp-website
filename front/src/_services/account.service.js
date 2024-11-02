@@ -23,7 +23,12 @@ let isLogged = () => {
     return !!token
 }
 
+// Récupération token
+let getToken = () => {
+    return localStorage.getItem('token')
+}
+
 // objet qui contient saveToken, logout, isLoged
 export const accountService = {
-    login, saveToken, logout, isLogged
+    login, saveToken, logout, isLogged, getToken
 }
