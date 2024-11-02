@@ -1,15 +1,15 @@
 // nommé User.js et pas index.js ou Index.js pour mieux s'y retrouver
 import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom'
-
+import { Link } from 'react-router-dom'
 import { userService } from '@/_services';
 
 // Il faudra récupérer les users depuis la db
 const User = () => {
     // Création de la proprieté car il ne peut pas être appelé directement
-    let navigate = useNavigate()
+    // let navigate = useNavigate()
     // State pour être synchronisé avec html
     const [users, setUsers] = useState([])
+    // flage pour éviter le double appel
     const flag = useRef(false)
 
     // chercher tous les utilisateurs / se déclenche à l'affichage
@@ -60,6 +60,7 @@ const User = () => {
                                 <td>{user.email}</td>
                                 <td>{user.citizenId}</td>
                                 <td>{user.createdAt}</td>
+                                <td><Link to={`/admin/user/edit/${user.id}`}><button>MODIFIER</button></Link></td>
                             </tr>
                         ))
                     }
