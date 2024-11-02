@@ -35,3 +35,13 @@
     text-decoration: none;
     color: black;
 }
+
+/************ SEPARATION ************/
+
+.edit_ubtn{
+    cursor: pointer;
+}
+
+.del_ubtn{
+    cursor: pointer;
+}

@@ -31,10 +31,17 @@ const User = () => {
         return () => flag.current = true
     }, [])
 
-    // const marcel = (userId) => {
-    //     console.log('click')
-    //     navigate('../edit/'+userId)
-    // }
+    // Supprimer un utilisateur
+    const delUser = (userId) => {
+        console.log(userId)
+        userService.deleteUser(userId)
+            .then(res => {
+                console.log(res)
+                // permet de mettre à jour le tableau après avoir supprimé un utilisateur
+                setUsers((current) => current.filter(user => user.id !== userId)) // Mise à jour du state / current = state actuel, puis on le filtre, donc on reçois des user et il doit me renvoyer la nouvelle table quand user.id et différent de userId (renvoyer l'entièreté de mon state sans la ligne qui correspond à l'utilisateur userId)
+            })
+            .catch(err => console.log(err))
+    }
 
     return (
         <div className='User'>
@@ -48,6 +55,8 @@ const User = () => {
                         <th>email</th>
                         <th>citizenId</th>
                         <th>created</th>
+                        <th></th>
+                        <th></th> 
                     </tr>
                 </thead>
                 <tbody>
@@ -60,7 +69,8 @@ const User = () => {
                                 <td>{user.email}</td>
                                 <td>{user.citizenId}</td>
                                 <td>{user.createdAt}</td>
-                                <td><Link to={`/admin/user/edit/${user.id}`}><button>MODIFIER</button></Link></td>
+                                <td><Link to={`/admin/user/edit/${user.id}`}><button className='edit_ubtn'>MODIFIER</button></Link></td>
+                                <td><Link><button className='del_utbn' onClick={() => delUser(user.id)}>SUPPRIMER</button></Link></td>
                             </tr>
                         ))
                     }
