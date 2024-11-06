@@ -51,7 +51,7 @@ const UserEdit = () => {
 
     return (
         <div className='UserEdit'>
-            USER EDIT
+            MODIFIER UN UTILISATEUR
             <form onSubmit={onSubmit}>
                 <div className='group'>
                     <label htmlFor='pseudo'>pseudo</label>

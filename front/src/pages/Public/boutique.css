@@ -1,0 +1,25 @@
+.Boutique {
+    padding-top: 20px;
+}
+
+.product-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.product-image {
+    height: 200px;
+    object-fit: cover;
+}
+
+.product-description {
+    color: #555;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.product-price {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 1rem;
+}

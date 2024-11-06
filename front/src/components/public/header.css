@@ -1,4 +1,4 @@
-.pheader {
+/* .pheader {
     text-align: center;
     border-bottom: solid 1px grey;
 }
@@ -16,4 +16,13 @@
 .pheader ul li a {
     text-decoration: none;
     color: black;
-}
+} */
+
+.pheader {
+    border-bottom: solid 1px grey;
+  }
+  
+  .navbar-brand img {
+    margin-right: 10px;
+  }
+  

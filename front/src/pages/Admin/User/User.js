@@ -45,7 +45,7 @@ const User = () => {
 
     return (
         <div className='User'>
-            USER LISTE
+            lISTE DES UTILISATEURS
             {/* <button onClick={(e) => marcel(4)}>User 4</button> */}
             <table>
                 <thead>

@@ -8,7 +8,21 @@ let login = (credentials) => {
 // Enregistrement du token dans le local storage
 let saveToken = (token) => {
     localStorage.setItem('token', token)
+
+    // Décoder le token pour extraire le rôle de l'utilisateur et l'enregistrer
+    // const decodedToken = jwt_decode(token);
+    // localStorage.setItem('user_role', decodedToken.role);
 }
+
+// Enregistrement du rôle de l'utilisateur
+// let saveUserRole = (role) => {
+//     localStorage.setItem('user_role', role);
+// };
+
+// Récupération du rôle de l'utilisateur
+// let getUserRole = () => {
+//     return localStorage.getItem('user_role');
+// };
 
 // Déconnexion
 let logout = () => {

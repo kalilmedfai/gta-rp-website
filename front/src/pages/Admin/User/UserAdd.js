@@ -28,7 +28,7 @@ const UserAdd = () => {
 
     return (
         <div className='UserAdd'>
-            USER ADD
+            AJOUTER UN UTILISATEUR
             <form onSubmit={onSubmit}>
                 <div className='group'>
                     <label htmlFor='pseudo'>pseudo</label>

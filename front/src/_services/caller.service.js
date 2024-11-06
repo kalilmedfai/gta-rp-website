@@ -18,4 +18,13 @@ Axios.interceptors.request.use(request => {
     return request
 })
 
+
+// Axios.interceptors.response.use(response => {
+//     // quand tout se passe bien
+//     return response
+//     // quand il y a une erreur
+// }), error => {
+
+// }
+
 export default Axios
