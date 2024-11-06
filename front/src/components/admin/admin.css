@@ -1,8 +1,65 @@
 /* admin.css */
 .logout-button {
-    white-space: nowrap;          /* Empêche le texte de se diviser */
-    padding: 0.5rem 1rem;         /* Ajuste l'espacement interne */
-    font-size: 1rem;              /* Assure que le texte est bien lisible */
-    min-width: 140px;             /* Largeur minimale suffisante pour le texte */
-    min-height: 40px;             /* Hauteur minimale pour centrer le texte */
+    white-space: nowrap;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    min-width: 140px;
+    min-height: 40px;
+}
+
+/* Menu Toggle Button */
+.menu-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1050;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.menu-toggle.hidden {
+    opacity: 0;
+    pointer-events: none; /* Ignore les clics quand le bouton est masqué */
+}
+
+.menu-toggle.fade-in {
+    opacity: 1;
+}
+
+/* Side Menu Styles */
+.side-menu-canvas .offcanvas-header {
+    background-color: #343a40;
+    color: #ffffff;
+}
+
+.side-menu-canvas .offcanvas-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.side-menu-canvas .offcanvas-body {
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+.side-menu-canvas .nav-item {
+    padding: 10px 20px;
+}
+
+.side-menu-canvas .nav-item h6 {
+    font-weight: bold;
+    color: #6c757d;
+    margin: 15px 0 5px 0;
+}
+
+.side-menu-canvas .nav-link {
+    color: #495057;
+    padding: 10px 20px;
+    font-size: 1rem;
+}
+
+.side-menu-canvas .nav-link:hover {
+    background-color: #e9ecef;
+    color: #212529;
+    border-radius: 5px;
 }
