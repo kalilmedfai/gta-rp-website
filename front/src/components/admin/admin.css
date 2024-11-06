@@ -1,0 +1,8 @@
+/* admin.css */
+.logout-button {
+    white-space: nowrap;          /* Empêche le texte de se diviser */
+    padding: 0.5rem 1rem;         /* Ajuste l'espacement interne */
+    font-size: 1rem;              /* Assure que le texte est bien lisible */
+    min-width: 140px;             /* Largeur minimale suffisante pour le texte */
+    min-height: 40px;             /* Hauteur minimale pour centrer le texte */
+}

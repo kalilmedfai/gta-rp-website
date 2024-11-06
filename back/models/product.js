@@ -15,12 +15,21 @@ const Product = db.define('Product', {
         type: DataTypes.TEXT,
         allowNull: false
     },
+    // price: {
+    //     type: DataTypes.DECIMAL(10, 2),
+    //     allowNull: false,
+    //     validate: {
+    //         isDecimal: true, // Assure que la valeur est décimale
+    //         min: 0.01        // Assure que la valeur est strictement positive
+    //     }
+    // },
     price: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
-        validate: {
-            isDecimal: true, // Assure que la valeur est décimale
-            min: 0.01        // Assure que la valeur est strictement positive
+        get() {
+            // Convertit le prix en nombre pour éviter qu'il soit interprété comme une chaîne
+            const rawValue = this.getDataValue('price');
+            return parseFloat(rawValue);
         }
     },
     createdAt: {

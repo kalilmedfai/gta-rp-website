@@ -9,17 +9,17 @@ const SideMenu = () => {
                 <li>&nbsp;</li>
                 <li><Link to="/admin/dashboard">Dashboard</Link></li>
                 <li>
-                    User
+                    Utilisateur
                     <ul>
                         <li><Link to="/admin/user/index">Liste</Link></li>
                         <li><Link to="/admin/user/Add">Ajouter</Link></li>
                     </ul>
                 </li>
                 <li>
-                    Cocktail
+                    Boutique
                     <ul>
-                        <li><Link to="/admin/cocktail/index">Liste</Link></li>
-                        <li><Link to="/admin/cocktail/edit">Ajouter</Link></li>
+                        <li><Link to="/admin/store/index">Liste</Link></li>
+                        <li><Link to="/admin/store/Add">Ajouter</Link></li>
                     </ul>
                 </li>
             </ul>
