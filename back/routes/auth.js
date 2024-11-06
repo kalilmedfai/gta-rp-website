@@ -30,9 +30,9 @@ router.post('/login', (req, res) => {
             }
 
             // SEULEMENT AUTORISER LES ADMIN
-            // if(user.role !== 'admin'){
-            //     return res.status(401).json({ message: 'This account does non have access !'})
-            // }
+            if(user.role !== 'admin'){
+                return res.status(401).json({ message: 'This account does non have access !'})
+            }
 
             // vérification du mot de passe : on compare 'password' de mon req.body à 'user.password' de ma base de données
             bcrypt.compare(password, user.password)

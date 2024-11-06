@@ -17,15 +17,19 @@ app.use(express.urlencoded({ extend: true}))
 
 // IMPORT MODULE DE ROUTAGE
 const user_router = require('./routes/users')
-
 const auth_router = require('./routes/auth')
+const article_router = require('./routes/articles');
+const product_router = require('./routes/products');
+const message_router = require('./routes/messages');
 
 // Mise en place du routage
 app.get('', (req, res) => res.send(`I'm online`))
 
 app.use('/users', user_router)
-
 app.use('/auth', auth_router)
+app.use('/articles', article_router);
+app.use('/products', product_router);
+app.use('/messages', message_router);
 
 app.get('*', (req, res) => {
     res.status(501).send({ message: 'What are you doing ?!?'});
