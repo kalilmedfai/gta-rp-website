@@ -3,6 +3,8 @@ const express = require('express')
 const bcrypt = require('bcrypt')
 
 const User = require('../models/user')
+const { sendWelcomeEmail } = require('../services/emailService');
+
 
 // Récupération du routeur d'express
 let router = express.Router()
@@ -66,7 +68,11 @@ router.put('', (req, res) => {
 
                     // Si utilisateur n'existe pas, on créé l'utilisateur
                     User.create(req.body)
-                    .then(user => res.json({ message : 'User created', data:user}))
+                    .then(newUser => {
+                        // Envoi de l'email de bienvenue
+                        sendWelcomeEmail(newUser.email, newUser.pseudo);
+                        res.json({ message: 'User created', data: newUser });
+                    })
                     .catch(err => res.status(500).json({message: 'Database error', error: err}))
                 })
                 .catch(err => res.status(500).json({message: 'Hash Process Error', error: err}))

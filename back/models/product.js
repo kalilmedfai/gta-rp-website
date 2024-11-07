@@ -12,7 +12,7 @@ const Product = db.define('Product', {
         allowNull: false
     },
     description: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING(255),
         allowNull: false
     },
     // price: {
