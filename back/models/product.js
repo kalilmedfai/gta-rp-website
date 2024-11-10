@@ -1,13 +1,14 @@
 const { DataTypes } = require('sequelize');
 const db = require('../config/db');
 
+// Table des produits
 const Product = db.define('Product', {
     id: {
-        type: DataTypes.INTEGER(10),
+        type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    name: {
+    productName: {
         type: DataTypes.STRING(100),
         allowNull: false
     },
@@ -15,14 +16,6 @@ const Product = db.define('Product', {
         type: DataTypes.STRING(255),
         allowNull: false
     },
-    // price: {
-    //     type: DataTypes.DECIMAL(10, 2),
-    //     allowNull: false,
-    //     validate: {
-    //         isDecimal: true, // Assure que la valeur est décimale
-    //         min: 0.01        // Assure que la valeur est strictement positive
-    //     }
-    // },
     price: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
@@ -32,27 +25,14 @@ const Product = db.define('Product', {
             return parseFloat(rawValue);
         }
     },
-    createdAt: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
-    },
-    updatedAt: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
+    productsTypeId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: { model: 'productsTypes', key: 'id' }
     }
 }, {
     tableName: 'products',
-    timestamps: true,
-    paranoid: true
+    timestamps: false,
 });
-
-// Synchronisation du modèle
-
-//crée la table si elle n'existe pas (et ne fait rien si elle existe déjà)
-// Product.sync()
-// crée la table en la supprimant d'abord si elle existait déjà
-// Product.sync({force: true})
-// vérifie quel est l'état actuel de la table dans la base de données (quelles colonnes elle contient, quels sont leurs types de données, etc.), puis effectue les modifications nécessaires dans la table pour la faire correspondre au modèle.
-// Product.sync({alter: true})
 
 module.exports = Product;

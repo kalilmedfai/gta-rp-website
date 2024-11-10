@@ -32,12 +32,12 @@ const Boutique = () => {
                         <Card className="product-card h-100">
                             <Card.Img 
                                 variant="top" 
-                                src={`https://via.placeholder.com/150?text=${product.name}`} // Placeholder pour l'image
+                                src={`https://via.placeholder.com/150?text=${product.productName}`} // Placeholder pour l'image
                                 alt={product.name} 
                                 className="product-image"
                             />
                             <Card.Body className="d-flex flex-column">
-                                <Card.Title>{product.name}</Card.Title>
+                                <Card.Title>{product.productName}</Card.Title>
                                 <Card.Text className="product-description">{product.description}</Card.Text>
                                 <Card.Text className="product-price">
                                     {typeof product.price === 'number' ? product.price.toFixed(2) : '0.00'} €

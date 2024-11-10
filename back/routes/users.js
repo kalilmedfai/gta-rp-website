@@ -1,159 +1,111 @@
-// Import des module nécessaires
-const express = require('express')
-const bcrypt = require('bcrypt')
-
-const User = require('../models/user')
+// Import des modules nécessaires
+const express = require('express');
+const bcrypt = require('bcrypt');
+const User = require('../models/user');
 const { sendWelcomeEmail } = require('../services/emailService');
 
+const router = express.Router();
 
-// Récupération du routeur d'express
-let router = express.Router()
-
-// Routage de la ressource User
-
-// Get pour tous les utilisateurs
+// Obtenir tous les utilisateurs
 router.get('', (req, res) => {
     User.findAll()
         .then(users => res.json({ data: users }))
         .catch(err => res.status(500).json({ message: 'Database Error' }));
 });
 
-
-// Get pour un utilisateur précisé par un id, et l'id est présent dans l'url
+// Obtenir un utilisateur par ID
 router.get('/:id', (req, res) => {
-    // si c'est une lettre ou que rien n'est transmis ce sera false et si c'est un chiffre il va le parse
-    let user_id = parseInt(req.params.id)
+    const userId = parseInt(req.params.id);
+    if (!userId) return res.status(400).json({ message: 'Missing parameter' });
 
-    // vérification si le champ id est présent et cohérent
-    // donc si je n'ai pas de user_id (false)
-    if(!user_id){
-        // 400 pour dire qu'il y a un problème dans la requête
-        return res.json(400).json({ message: 'Missing parameter'})
-    }
-
-    // Si j'ai bien récupéré quelque chose
-    // Récupération de l'utilisateur avec findOne car je veux qu'un seul résultat / where id correspond à user_id / raw car je veux un objet exploitable
-    User.findOne({ where: {id: user_id}, raw: true})
+    User.findOne({ where: { id: userId }, raw: true })
         .then(user => {
-            if((user === null)){
-                return res.status(404).json({message: 'This user does not exist'})
-            }
-
-            // Utilisateur trouvé
-            return res.json({data: user})
+            if (!user) return res.status(404).json({ message: 'User not found' });
+            res.json({ data: user });
         })
-        .catch(err => res.status(500).json({message: 'Database error'}))
-})
+        .catch(err => res.status(500).json({ message: 'Database error' }));
+});
 
-// Put pour ajouter de données (créer)
+// Créer un nouvel utilisateur et envoyer un email de bienvenue
 router.put('', (req, res) => {
-    const {pseudo, email, password, citizenId} = req.body
+    const { username, email, password, citizenId } = req.body;
 
-    // Validation des données reçues
-    if(!pseudo || !email || !password || !citizenId) { /************** RAJOUTER D'AUTRES *****************/
-        res.status(400).json({message: 'Missing data'}) // Problème dans la requête 400
+    // Validation des données requises
+    if (!username || !email || !password || !citizenId) {
+        return res.status(400).json({ message: 'Missing data' });
     }
 
-    User.findOne({ where: { email: email }, raw: true})     // Après le where, le premier "email" est celui de la base de données, le second est celui de la requête
-        .then(user => {     // si je trouve qqc je vais le stocker dans la variable user
-            // vérification si utilisateur existe déjà
-            if(user !== null){      // Si user n'est pas égale à null, ça veut dire qu'on a trouvé qqc dans la base de données, donc ce n'est pas bon
-                return res.status(409).json({ message: `The user ${pseudo} already exist`, error: err})
+    // Vérifier si l'utilisateur existe déjà
+    User.findOne({ where: { email }, raw: true })
+        .then(existingUser => {
+            if (existingUser) {
+                return res.status(409).json({ message: `The user ${username} already exists` });
             }
 
-            // hashage mdp utilisateur, le bcrypt_salt_round permet de complexifier avant de le hasher (salage)
+            // Hash du mot de passe
             bcrypt.hash(password, parseInt(process.env.BCRYPT_SALT_ROUND))
-                .then(hash => {
-                    req.body.password = hash    // on remplace le mdp en clair par le mdp hashé
+                .then(hashedPassword => {
+                    req.body.password = hashedPassword; // Remplace le mot de passe par le hashé
 
-                    // Si utilisateur n'existe pas, on créé l'utilisateur
+                    // Création de l'utilisateur
                     User.create(req.body)
-                    .then(newUser => {
-                        // Envoi de l'email de bienvenue
-                        sendWelcomeEmail(newUser.email, newUser.pseudo);
-                        res.json({ message: 'User created', data: newUser });
-                    })
-                    .catch(err => res.status(500).json({message: 'Database error', error: err}))
+                        .then(newUser => {
+                            // Envoi de l'email de bienvenue
+                            sendWelcomeEmail(newUser.email, newUser.username);
+                            res.json({ message: 'User created', data: newUser });
+                        })
+                        .catch(err => res.status(500).json({ message: 'Database error', error: err }));
                 })
-                .catch(err => res.status(500).json({message: 'Hash Process Error', error: err}))
-
+                .catch(err => res.status(500).json({ message: 'Hash Process Error', error: err }));
         })
-        .catch(err => res.status(500).json({message: 'Database error', error: err}))
-})
+        .catch(err => res.status(500).json({ message: 'Database error', error: err }));
+});
 
-// Patch pour modification d'un utilisateur avec un id dans l'url et les modifications à apporter dans le body de la requête
+// Mise à jour d'un utilisateur par ID
 router.patch('/:id', (req, res) => {
-    let user_id = parseInt(req.params.id)
+    const userId = parseInt(req.params.id);
+    if (!userId) return res.status(400).json({ message: 'Missing parameter' });
 
-    // Vérifier si le champ id est présent et cohérent
-    if(!user_id) {
-        return res.status(400).json({message: 'Missing parameter'})
-    }
-
-    // Recherche de l'utilisateur
-    User.findOne({ where: {id: user_id}, raw: true})
+    User.findOne({ where: { id: userId }, raw: true })
         .then(user => {
-            // Vérifier si utilisateur existe
-            if(user === null){
-                return res.status(404).json({ message: 'This user does not exist'})
-            }
+            if (!user) return res.status(404).json({ message: 'User not found' });
 
-            // Mise à jour de l'utilisateur
-            User.update(req.body, {where : {id: user_id}})     // NE PAS OUBLIER : params(URL) = on a l'id de l'utilisateur / body = informations à mettre à jour (nom, prénom, email, pseudo, etc)
-                .then(user => res.json({message: 'User updated'}))       // user = je vais recevoir utilisateur modifié / on ne rajoute pas de status car je vais envoyer par défaut 200
-                .catch(err => res.status(500).json({message: 'Database error'}))      // toujours rajouter un catch au cas où cela se passe mal
+            // Mettre à jour l'utilisateur
+            User.update(req.body, { where: { id: userId } })
+                .then(() => res.json({ message: 'User updated' }))
+                .catch(err => res.status(500).json({ message: 'Database error' }));
         })
-        .catch(err => res.status(500).json({message: 'Database error'})) // Si mon findOne ne s'est pas bien passé, on renvoie une erreur
-})
+        .catch(err => res.status(500).json({ message: 'Database error' }));
+});
 
-// Post pour la restauration car put et patch pas adéquat
+// Restaurer un utilisateur supprimé (soft delete)
 router.post('/untrash/:id', (req, res) => {
-    let user_id = parseInt(req.params.id)
+    const userId = parseInt(req.params.id);
+    if (!userId) return res.status(400).json({ message: 'Missing parameter' });
 
-    // Vérifier si le champ id est présent et cohérent
-    if(!user_id) {
-        return res.status(400).json({message: 'Missing parameter'})
-    }
-
-    User.restore({where: {id: user_id}})
+    User.restore({ where: { id: userId } })
         .then(() => res.status(204).json({}))
-        .catch(err => res.status(500).json({message: 'Database error', error: err}))
-})
+        .catch(err => res.status(500).json({ message: 'Database error', error: err }));
+});
 
-// Suppression vers la "corbeille" (soft delete)
+// Suppression douce d'un utilisateur (soft delete)
 router.delete('/trash/:id', (req, res) => {
-    // si c'est une lettre ou que rien n'est transmis ce sera false et si c'est un chiffre il va le parse
-    let user_id = parseInt(req.params.id)
+    const userId = parseInt(req.params.id);
+    if (!userId) return res.status(400).json({ message: 'Missing parameter' });
 
-    // vérification si le champ id est présent et cohérent
-    // donc si je n'ai pas de user_id (false)
-    if(!user_id){
-        // 400 pour dire qu'il y a un problème dans la requête
-        return res.json(400).json({ message: 'Missing parameter'})
-    }
+    User.destroy({ where: { id: userId } })
+        .then(() => res.status(204).json())
+        .catch(err => res.status(500).json({ message: 'Database error' }));
+});
 
-    // Suppression de l'utilisateur
-    User.destroy({where: {id: user_id}})
-        .then(() => res.status(204).json({})) // je ne reçois rien dans then / 204 : ok tout est bon mais j'ai aucun message à t'envoyer
-        .catch(err => res.status(500).json({message: 'Database error'}))
-})
-
-// Suppression définitive ma ligne dans la db
+// Suppression définitive d'un utilisateur
 router.delete('/:id', (req, res) => {
-    // si c'est une lettre ou que rien n'est transmis ce sera false et si c'est un chiffre il va le parse
-    let user_id = parseInt(req.params.id)
+    const userId = parseInt(req.params.id);
+    if (!userId) return res.status(400).json({ message: 'Missing parameter' });
 
-    // vérification si le champ id est présent et cohérent
-    // donc si je n'ai pas de user_id (false)
-    if(!user_id){
-        // 400 pour dire qu'il y a un problème dans la requête
-        return res.json(400).json({ message: 'Missing parameter'})
-    }
+    User.destroy({ where: { id: userId }, force: true })
+        .then(() => res.status(204).json())
+        .catch(err => res.status(500).json({ message: 'Database error' }));
+});
 
-    // Suppression de l'utilisateur
-    User.destroy({where: {id: user_id}, force: true})
-        .then(() => res.status(204).json({})) // je ne reçois rien dans then / 204 : ok tout est bon mais j'ai aucun message à t'envoyer
-        .catch(err => res.status(500).json({message: 'Database error'}))
-})
-
-module.exports = router
+module.exports = router;

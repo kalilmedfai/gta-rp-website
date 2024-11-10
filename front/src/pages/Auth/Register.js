@@ -12,7 +12,7 @@ const Register = () => {
         email: '',
         password: '',
         confirmPassword: '',
-        pseudo: '',
+        username: '',
         citizenId: ''
     });
 
@@ -53,7 +53,7 @@ const Register = () => {
             userService.addUser({
                 email: formData.email,
                 password: formData.password,
-                pseudo: formData.pseudo,
+                username: formData.username,
                 citizenId: formData.citizenId
             })
             .then(() => {
@@ -85,13 +85,13 @@ const Register = () => {
                             />
                         </Form.Group>
 
-                        <Form.Group className="mb-3" controlId="pseudo">
+                        <Form.Group className="mb-3" controlId="username">
                             <Form.Label>Pseudo</Form.Label>
                             <Form.Control
                                 type="text"
-                                name="pseudo"
+                                name="username"
                                 placeholder="Entrez votre pseudo"
-                                value={formData.pseudo}
+                                value={formData.username}
                                 onChange={onChange}
                                 required
                             />

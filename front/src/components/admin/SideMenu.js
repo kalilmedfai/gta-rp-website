@@ -32,16 +32,26 @@ const SideMenu = () => {
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                     <Nav defaultActiveKey="/admin/dashboard" className="flex-column">
-                        <Nav.Link as={Link} to="/admin/dashboard" onClick={handleClose}>Dashboard</Nav.Link>
+                        <Nav.Link as={Link} to="/admin/dashboard" onClick={handleClose}>
+                            Dashboard
+                        </Nav.Link>
                         <Nav.Item>
                             <h6>Utilisateur</h6>
-                            <Nav.Link as={Link} to="/admin/user/index" onClick={handleClose}>Liste</Nav.Link>
-                            <Nav.Link as={Link} to="/admin/user/Add" onClick={handleClose}>Ajouter</Nav.Link>
+                            <Nav.Link as={Link} to="/admin/user/index" onClick={handleClose}>
+                                Liste
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="/admin/user/Add" onClick={handleClose}>
+                                Ajouter
+                            </Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
                             <h6>Boutique</h6>
-                            <Nav.Link as={Link} to="/admin/store/index" onClick={handleClose}>Liste</Nav.Link>
-                            <Nav.Link as={Link} to="/admin/store/Add" onClick={handleClose}>Ajouter</Nav.Link>
+                            <Nav.Link as={Link} to="/admin/product/index" onClick={handleClose}>
+                                Liste
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="/admin/product/Add" onClick={handleClose}>
+                                Ajouter
+                            </Nav.Link>
                         </Nav.Item>
                     </Nav>
                 </Offcanvas.Body>

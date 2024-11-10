@@ -1,47 +1,36 @@
 // Import des modules necessaires
 const { DataTypes } = require('sequelize');
 const db = require('../config/db');
-const sequelize = require('../config/db');
 
-// Définition du modèle User
+// Table des utilisateurs
 const User = db.define('User', {
     id: {
-        type: DataTypes.INTEGER(10),
+        type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
-    },
-    // user_id: {
-    //     type: DataTypes.INTEGER(10),
-    //     allowNull: false
-    // },
-    pseudo: {
-        type: DataTypes.STRING(50),
-        allowNull: false,
-        unique: true
     },
     email: {
         type: DataTypes.STRING(50),
         allowNull: false,
         unique: true,
-        validate: {
-            isEmail: true           // validation de données
-        }
+        validate: { isEmail: true }
     },
     password: {
         type: DataTypes.STRING(64),
-        allowNull: false,
-        is : /^[0-9a-f]{64}$/i      // contrainte
+        allowNull: false
     },
-    role: {
-        type: DataTypes.ENUM('user', 'admin'),
-        defaultValue: 'user'
+    username: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+        unique: true
     },
     citizenId: {
         type: DataTypes.STRING(8),
         allowNull: false,
+        unique: true,
         validate: {
-            is: /^[A-Z0-9]{8}$/  // Validation : 8 caractères, majuscules, lettres et chiffres
-        }
+            is: /^[A-Z0-9]{8}$/, // 8 caractères, majuscules et chiffres uniquement
+        },
     },
     createdAt: {
         type: DataTypes.DATE,
@@ -50,30 +39,17 @@ const User = db.define('User', {
     updatedAt: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
+    },
+    usersTypeId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 2,
+        references: { model: 'usersTypes', key: 'id' }
     }
 }, {
     tableName: 'users',
     timestamps: true,
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    paranoid: true              // Active le soft delete
+    paranoid: true,
 });
-
-// Vérification du citizenId obligatoire pour les utilisateurs, mais non requis pour les admins
-// User.beforeCreate((user, options) => {
-//     if (user.role === 'user' && !user.citizenId) {
-//         throw new Error('Citizen ID est requis pour les utilisateurs.');
-//     }
-// });
-
-
-// Synchronisation du modèle
-
-//crée la table si elle n'existe pas (et ne fait rien si elle existe déjà)
-// User.sync()
-// crée la table en la supprimant d'abord si elle existait déjà
-// User.sync({force: true})
-// vérifie quel est l'état actuel de la table dans la base de données (quelles colonnes elle contient, quels sont leurs types de données, etc.), puis effectue les modifications nécessaires dans la table pour la faire correspondre au modèle.
-// User.sync({alter: true})
 
 module.exports = User;

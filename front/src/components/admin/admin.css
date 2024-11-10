@@ -1,10 +1,21 @@
-/* admin.css */
+/* Bouton de déconnexion */
 .logout-button {
     white-space: nowrap;
     padding: 0.5rem 1rem;
     font-size: 1rem;
     min-width: 140px;
     min-height: 40px;
+    color: #fff;
+    border: none;
+    background-color: #dc3545;
+    border-radius: 5px;
+}
+
+/* Header */
+.AHeader {
+    padding: 0.75rem 1.5rem;
+    background-color: #343a40;
+    color: #ffffff;
 }
 
 /* Menu Toggle Button */
@@ -14,18 +25,24 @@
     left: 20px;
     z-index: 1050;
     transition: opacity 0.3s ease-in-out;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    color: #ffffff;
+    background-color: #343a40;
+    border: none;
 }
 
 .menu-toggle.hidden {
     opacity: 0;
-    pointer-events: none; /* Ignore les clics quand le bouton est masqué */
+    pointer-events: none;
 }
 
 .menu-toggle.fade-in {
     opacity: 1;
 }
 
-/* Side Menu Styles */
+/* Style du Side Menu */
 .side-menu-canvas .offcanvas-header {
     background-color: #343a40;
     color: #ffffff;
@@ -62,4 +79,77 @@
     background-color: #e9ecef;
     color: #212529;
     border-radius: 5px;
+}
+
+/* Conteneur pour le défilement horizontal du tableau */
+.table-responsive-container {
+    overflow-x: auto;
+    width: 100%;
+    padding: 1rem 0;
+}
+
+#admin_body {
+    min-width: 100%; /* S'assure que le tableau prend toute la largeur de l'écran */
+    white-space: nowrap; /* Empêche les retours à la ligne dans les cellules du tableau */
+    background-color: #ffffff;
+    border-collapse: collapse;
+}
+
+#admin_body thead {
+    background-color: #343a40;
+    color: #ffffff;
+}
+
+#admin_body tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#admin_body tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+#admin_body th, 
+#admin_body td {
+    padding: 0.75rem;
+    text-align: left;
+    border: 1px solid #dee2e6;
+}
+
+/* Style des boutons Modifier et Supprimer dans le tableau */
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 4px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Barre de défilement personnalisée pour le conteneur du tableau */
+.table-responsive-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.table-responsive-container::-webkit-scrollbar-thumb {
+    background: #6c757d;
+    border-radius: 4px;
+}
+
+.table-responsive-container::-webkit-scrollbar-track {
+    background: #e9ecef;
 }

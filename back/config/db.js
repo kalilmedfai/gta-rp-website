@@ -4,7 +4,7 @@ const { Sequelize } = require('sequelize')
 // require('dotenv').config();
 
 // Connexion à la base de donnée
-let sequelize = new Sequelize(
+let db = new Sequelize(
     process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
         host: process.env.DB_HOST,
         // l'ajout du port n'est pas obligatoire
@@ -20,4 +20,4 @@ let sequelize = new Sequelize(
 //     console.log('Database Sync Error', err)
 // })
 
-module.exports = sequelize
+module.exports = db

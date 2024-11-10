@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 
 import { ALayout, Dashboard } from '@/pages/Admin'
 import { User, UEdit, Add } from '@/pages/Admin/User'
-import { Store, SEdit, SAdd } from '@/pages/Admin/Store'
+import { AProduct, AProductEdit, AProductAdd } from '@/pages/Admin/Product'
 
 import Error from '@/_utils/Error'
 
@@ -22,10 +22,10 @@ const AdminRouter = () => {
                     <Route path='edit/:uid' element={<UEdit/>}/>
                     <Route path='Add' element={<Add/>}/>
                 </Route>
-                <Route path='store'>
-                    <Route path='index' element={<Store/>}/>
-                    <Route path='edit/:productId' element={<SEdit/>}/>
-                    <Route path='Add' element={<SAdd/>}/>
+                <Route path='product'>
+                    <Route path='index' element={<AProduct/>}/>
+                    <Route path='edit/:productId' element={<AProductEdit/>}/>
+                    <Route path='Add' element={<AProductAdd/>}/>
                 </Route>
                 <Route path='*' element={<Error/>}/>
             

@@ -1,43 +1,57 @@
-// Import des modules necessaires
+// Import des modules nécessaires
 const express = require('express');
 const cors = require('cors');
-
-// import de la connexion à la db
 const db = require('./config/db');
 
-// initialisation de l'api
+// initialisation de l'API
 const app = express();
 
 // Middleware
-app.use(cors({
-    origin: '*', // Autoriser toutes les origines pour le développement
-}));
+app.use(cors({ origin: '*' })); // Autoriser toutes les origines pour le développement
 app.use(express.json());
-app.use(express.urlencoded({ extend: true}))
+app.use(express.urlencoded({ extended: true }));
 
-// IMPORT MODULE DE ROUTAGE
-const user_router = require('./routes/users')
-const auth_router = require('./routes/auth')
-const article_router = require('./routes/articles');
-const product_router = require('./routes/products');
-const message_router = require('./routes/messages');
+// IMPORT DES ROUTES
+const usersRouter = require('./routes/users');
+const authRouter = require('./routes/auth');
+const articlesRouter = require('./routes/articles');
+const productsRouter = require('./routes/products');
+const messagesRouter = require('./routes/messages');
+const cartsRouter = require('./routes/carts');
+const containProductRouter = require('./routes/containProducts');
+const collectionsRouter = require('./routes/collections');
+const productsTypesRouter = require('./routes/productsTypes');
+const usersTypesRouter = require('./routes/usersTypes');
+const sendMessagesRouter = require('./routes/sendMessages');
 
-// Mise en place du routage
-app.get('', (req, res) => res.send(`I'm online`))
+// Configuration du routage
+app.get('', (req, res) => res.send(`I'm online`));
 
-app.use('/users', user_router)
-app.use('/auth', auth_router)
-app.use('/articles', article_router);
-app.use('/products', product_router);
-app.use('/messages', message_router);
+// Liaisons des routes CRUD pour chaque ressource
+app.use('/users', usersRouter);
+app.use('/auth', authRouter);
+app.use('/articles', articlesRouter);
+app.use('/products', productsRouter);
+app.use('/messages', messagesRouter);
+app.use('/carts', cartsRouter);
+app.use('/containProduct', containProductRouter);
+app.use('/collections', collectionsRouter);
+app.use('/productsTypes', productsTypesRouter);
+app.use('/usersTypes', usersTypesRouter);
+app.use('/sendMessages', sendMessagesRouter);
 
+// Gestion des routes non définies
 app.get('*', (req, res) => {
-    res.status(501).send({ message: 'What are you doing ?!?'});
+    res.status(501).send({ message: 'Route non définie' });
 });
 
 // Démarrage du serveur avec test db
 db.authenticate()
     .then( () => console.log('Connexion à la db OK'))
+    .then(() => {
+        // Synchronisation de la base de données
+        return db.sync({ alter: true }); // alter: true met à jour la base de données sans supprimer les données existantes
+    })
     .then( () => {
         app.listen(process.env.SERVER_PORT, () => {
             console.log(`Serveur en cours d'exécution sur le port ${process.env.SERVER_PORT}`);

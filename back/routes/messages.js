@@ -1,6 +1,5 @@
 const express = require('express');
 const Message = require('../models/message');
-const User = require('../models/user'); // Au cas où vous voudriez vérifier l'utilisateur
 
 const router = express.Router();
 
@@ -13,10 +12,10 @@ router.get('', (req, res) => {
 
 // Récupérer un message spécifique par ID
 router.get('/:id', (req, res) => {
-    const message_id = parseInt(req.params.id);
-    if(!message_id) return res.status(400).json({ message: 'Missing parameter' });
+    const messageId = parseInt(req.params.id);
+    if (!messageId) return res.status(400).json({ message: 'Missing parameter' });
 
-    Message.findOne({ where: { id: message_id }, raw: true })
+    Message.findOne({ where: { id: messageId }, raw: true })
         .then(message => {
             if (!message) return res.status(404).json({ message: 'Message not found' });
             res.json({ data: message });
@@ -26,38 +25,32 @@ router.get('/:id', (req, res) => {
 
 // Créer un nouveau message
 router.post('', (req, res) => {
-    const { subject, message, userId } = req.body;
+    const { subject, message } = req.body;
+    const userId = req.user.id; // Supposons que l'auth middleware ajoute userId dans req.user
 
-    if (!subject || !message || !userId) return res.status(400).json({ message: 'Missing data' });
+    if (!subject || !message) return res.status(400).json({ message: 'Missing data' });
 
-    // Optionnel : Vérifier si l'utilisateur existe avant de créer le message
-    User.findOne({ where: { id: userId }, raw: true })
-        .then(user => {
-            if (!user) return res.status(404).json({ message: 'User not found' });
-
-            Message.create(req.body)
-                .then(newMessage => res.json({ message: 'Message created', data: newMessage }))
-                .catch(err => res.status(500).json({ message: 'Database Error', error: err }));
-        })
+    Message.create({ subject, message, userId })
+        .then(newMessage => res.json({ message: 'Message created', data: newMessage }))
         .catch(err => res.status(500).json({ message: 'Database Error', error: err }));
 });
 
 // Mettre à jour un message
 router.patch('/:id', (req, res) => {
-    const message_id = parseInt(req.params.id);
-    if(!message_id) return res.status(400).json({ message: 'Missing parameter' });
+    const messageId = parseInt(req.params.id);
+    if (!messageId) return res.status(400).json({ message: 'Missing parameter' });
 
-    Message.update(req.body, { where: { id: message_id } })
+    Message.update(req.body, { where: { id: messageId } })
         .then(() => res.json({ message: 'Message updated' }))
         .catch(err => res.status(500).json({ message: 'Database Error' }));
 });
 
 // Supprimer un message
 router.delete('/:id', (req, res) => {
-    const message_id = parseInt(req.params.id);
-    if(!message_id) return res.status(400).json({ message: 'Missing parameter' });
+    const messageId = parseInt(req.params.id);
+    if (!messageId) return res.status(400).json({ message: 'Missing parameter' });
 
-    Message.destroy({ where: { id: message_id }, force: true })
+    Message.destroy({ where: { id: messageId }, force: true })
         .then(() => res.status(204).json())
         .catch(err => res.status(500).json({ message: 'Database Error' }));
 });
