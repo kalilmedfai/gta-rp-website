@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { userService } from '@/_services';
 
 import './auth.css';
@@ -147,6 +147,11 @@ const Register = () => {
                             </Button>
                         </div>
                     </Form>
+
+                    <p className="text-center mt-3">
+                        Vous avez déjà un compte ?{' '}
+                        <Link to="/connexion">Connectez-vous ici</Link>
+                    </p>
                 </Col>
             </Row>
         </Container>

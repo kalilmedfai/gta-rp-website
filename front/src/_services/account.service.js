@@ -1,48 +1,53 @@
-import Axios from "./caller.service"
+import Axios from "./caller.service";
+import { jwtDecode } from "jwt-decode";
 
-// methode login reçois les identifiants
+// Méthode login reçoit les identifiants
 let login = (credentials) => {
-    return Axios.post('auth/login', credentials)
-}
+    return Axios.post('/auth/login', credentials)
+        .then(res => {
+            saveToken(res.data.access_token);
+            return res;
+        });
+};
+
+// Méthode de connexion utilisateur
+let uLogin = (credentials) => {
+    return Axios.post('/connexion', credentials)
+        .then(res => {
+            saveToken(res.data.access_token);
+            return res;  // Renvoie la réponse pour permettre une redirection après la connexion
+        });
+};
 
 // Enregistrement du token dans le local storage
 let saveToken = (token) => {
-    localStorage.setItem('token', token)
+    localStorage.setItem('token', token);
+    const decodedToken = jwtDecode(token);
+    localStorage.setItem('usersTypeId', decodedToken.usersTypeId);  // Enregistre le usersTypeId
+};
 
-    // Décoder le token pour extraire le rôle de l'utilisateur et l'enregistrer
-    // const decodedToken = jwt_decode(token);
-    // localStorage.setItem('user_role', decodedToken.role);
-}
-
-// Enregistrement du rôle de l'utilisateur
-// let saveUserRole = (role) => {
-//     localStorage.setItem('user_role', role);
-// };
-
-// Récupération du rôle de l'utilisateur
-// let getUserRole = () => {
-//     return localStorage.getItem('user_role');
-// };
+// Récupération du usersTypeId
+let getUserTypeId = () => {
+    return parseInt(localStorage.getItem('usersTypeId'), 10);
+};
 
 // Déconnexion
 let logout = () => {
-    localStorage.removeItem('token')
-}
+    localStorage.removeItem('token');
+    localStorage.removeItem('usersTypeId');
+};
 
-// Savoir si on est connecté ou non
+// Vérifie si l'utilisateur est connecté
 let isLogged = () => {
-    // Dans le token je récupère ce que j'ai dans le local storage
-    let token = localStorage.getItem('token')
-    // !!token = "not not token" /  Permet de transformer n'importe quelle variable en boolean => si token pas de token, token = null donc !!token sera égale à false, sinon token = true
-    return !!token
-}
+    return !!localStorage.getItem('token');
+};
 
-// Récupération token
+// Récupération du token
 let getToken = () => {
-    return localStorage.getItem('token')
-}
+    return localStorage.getItem('token');
+};
 
-// objet qui contient saveToken, logout, isLoged
+// Export des méthodes de accountService
 export const accountService = {
-    login, saveToken, logout, isLogged, getToken
-}
+    login, uLogin, saveToken, getUserTypeId, logout, isLogged, getToken
+};

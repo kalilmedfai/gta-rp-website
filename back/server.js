@@ -11,9 +11,11 @@ app.use(cors({ origin: '*' })); // Autoriser toutes les origines pour le dévelo
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
 // IMPORT DES ROUTES
 const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth');
+const uAuthRouter = require('./routes/uAuth');
 const articlesRouter = require('./routes/articles');
 const productsRouter = require('./routes/products');
 const messagesRouter = require('./routes/messages');
@@ -23,6 +25,7 @@ const collectionsRouter = require('./routes/collections');
 const productsTypesRouter = require('./routes/productsTypes');
 const usersTypesRouter = require('./routes/usersTypes');
 const sendMessagesRouter = require('./routes/sendMessages');
+// const adminRouter = require('./routes/admin');
 
 // Configuration du routage
 app.get('', (req, res) => res.send(`I'm online`));
@@ -30,6 +33,7 @@ app.get('', (req, res) => res.send(`I'm online`));
 // Liaisons des routes CRUD pour chaque ressource
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
+app.use('/connexion', uAuthRouter);
 app.use('/articles', articlesRouter);
 app.use('/products', productsRouter);
 app.use('/messages', messagesRouter);
@@ -50,7 +54,7 @@ db.authenticate()
     .then( () => console.log('Connexion à la db OK'))
     .then(() => {
         // Synchronisation de la base de données
-        return db.sync({ alter: true }); // alter: true met à jour la base de données sans supprimer les données existantes
+        return db.sync(); // alter: true met à jour la base de données sans supprimer les données existantes
     })
     .then( () => {
         app.listen(process.env.SERVER_PORT, () => {
