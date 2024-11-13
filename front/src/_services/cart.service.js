@@ -1,46 +1,40 @@
-import callerService from './caller.service';
-import { accountService } from './account.service';
+import Axios from './caller.service';
 
-export const cartService = {
-    addToCart,
-    getCart,
-    syncLocalCartWithServer,
-};
-
-function addToCart(productId, quantity) {
-    // Vérifie si l'utilisateur est connecté
-    if (accountService.isLogged()) {
-        return callerService.post('/carts/add', { productId, quantity });
-    } else {
-        // Stocke le panier localement dans le localStorage pour les utilisateurs non connectés
+class CartService {
+    getCart() {
+        // Récupère le panier depuis le localStorage pour les visiteurs non connectés
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const existingItem = cart.find(item => item.productId === productId);
+        return cart;
+    }
 
-        if (existingItem) {
-            existingItem.quantity += quantity;
-        } else {
-            cart.push({ productId, quantity });
+    addToCart(product) {
+        let cart = this.getCart();
+        // Vérifie si le produit existe déjà dans le panier
+        if (!cart.find(item => item.id === product.id)) {
+            cart.push({ ...product, quantity: 1 });
+            localStorage.setItem('cart', JSON.stringify(cart));
         }
+        return cart;
+    }
+
+    removeFromCart(productId) {
+        let cart = this.getCart().filter(item => item.id !== productId);
         localStorage.setItem('cart', JSON.stringify(cart));
-        return Promise.resolve(cart);
+        return cart;
     }
-}
 
-function getCart() {
-    if (accountService.isLogged()) {
-        return callerService.get('/carts');
-    } else {
-        return Promise.resolve(JSON.parse(localStorage.getItem('cart')) || []);
-    }
-}
-
-// Fonction pour synchroniser le panier local avec le serveur après connexion
-function syncLocalCartWithServer() {
-    const localCart = JSON.parse(localStorage.getItem('cart')) || [];
-    if (localCart.length > 0) {
-        localCart.forEach(item => {
-            callerService.post('/carts/add', item);
-        });
+    clearCart() {
         localStorage.removeItem('cart');
     }
+
+    getTotal() {
+        return this.getCart().reduce((total, item) => total + item.price * item.quantity, 0);
+    }
+
+    syncCartWithServer() {
+        // Appel API pour sauvegarder le panier sur le serveur si l'utilisateur est connecté
+        return Axios.post('/carts/sync', { items: this.getCart() });
+    }
 }
+
+export const cartService = new CartService();

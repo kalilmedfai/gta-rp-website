@@ -58,7 +58,7 @@ const Header = () => {
             )}
 
             {/* Bouton Panier */}
-            <Link to="/cart" className="text-decoration-none">
+            <Link to="/panier" className="text-decoration-none">
               <Button variant="outline-secondary" className="d-flex align-items-center">
                 <FaShoppingCart className="me-2" />
                 Panier

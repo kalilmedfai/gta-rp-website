@@ -1,5 +1,6 @@
 const express = require('express');
 const SendMessage = require('../models/SendMessage');
+const { sendContactEmail } = require('../services/emailService');
 
 const router = express.Router();
 
@@ -8,6 +9,25 @@ router.get('', (req, res) => {
     SendMessage.findAll()
         .then(sendMessages => res.json({ data: sendMessages }))
         .catch(err => res.status(500).json({ message: 'Database Error' }));
+});
+
+// Envoyer un message de contact
+router.post('/', (req, res) => {
+    const { email, subject, text } = req.body;
+    console.log('Email reçu:', email);
+    console.log('Sujet:', subject);
+    console.log('Texte:', text);
+    
+    if (!email || !subject || !text) {
+        return res.status(400).json({ message: 'Email, sujet et texte requis.' });
+    }
+
+    sendContactEmail(email, subject, text)
+        .then(() => res.json({ message: 'Message envoyé avec succès.' }))
+        .catch((error) => {
+            console.error('Erreur lors de l\'envoi de l\'email:', error);
+            res.status(500).json({ message: 'Erreur lors de l\'envoi de l\'email.' });
+        });
 });
 
 // Obtenir un message envoyé spécifique

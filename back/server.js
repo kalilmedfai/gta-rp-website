@@ -42,7 +42,7 @@ app.use('/containProduct', containProductRouter);
 app.use('/collections', collectionsRouter);
 app.use('/productsTypes', productsTypesRouter);
 app.use('/usersTypes', usersTypesRouter);
-app.use('/sendMessages', sendMessagesRouter);
+app.use('/contact', sendMessagesRouter);
 
 // Gestion des routes non définies
 app.get('*', (req, res) => {

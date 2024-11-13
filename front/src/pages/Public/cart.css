@@ -1,0 +1,91 @@
+/* Container général du panier */
+.cart-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Titre principal */
+.cart-container h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    color: #343a40;
+    margin-bottom: 20px;
+}
+
+/* Style pour chaque item du panier */
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    background-color: #ffffff;
+    margin-bottom: 10px;
+}
+
+/* Nom du produit */
+.list-group-item h5 {
+    font-size: 1.25rem;
+    margin: 0;
+    color: #495057;
+}
+
+/* Prix et quantité */
+.list-group-item p {
+    font-size: 1rem;
+    color: #6c757d;
+    margin: 0;
+}
+
+.list-group-item span {
+    font-size: 1rem;
+    color: #212529;
+}
+
+/* Bouton pour retirer un article */
+.list-group-item .btn-danger {
+    font-size: 0.875rem;
+    padding: 8px 12px;
+}
+
+/* Section total et bouton de validation */
+.cart-container .row {
+    margin-top: 20px;
+}
+
+.cart-container h4 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #495057;
+}
+
+.cart-container .text-end {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.cart-container .btn-success {
+    padding: 10px 20px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.cart-container .btn-success:disabled {
+    background-color: #c3e6cb;
+}
+
+.cart-container .btn-success:hover:not(:disabled) {
+    background-color: #218838;
+}

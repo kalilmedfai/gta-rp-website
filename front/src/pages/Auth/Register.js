@@ -58,7 +58,7 @@ const Register = () => {
             })
             .then(() => {
                 // Rediriger l'utilisateur après une inscription réussie
-                navigate('/login', { replace: true });
+                navigate('/connexion', { replace: true });
             })
             .catch(error => {
                 console.log(error);
