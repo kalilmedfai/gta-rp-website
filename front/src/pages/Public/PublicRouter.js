@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom'
 
-import { Layout, Home, Contact, Boutique, Cart } from '@/pages/Public'
+import { Layout, Home, Contact, Boutique, Cart, Profile } from '@/pages/Public'
 import Register from '@/pages/Auth/Register';
 import ULogin from '@/pages/Auth/ULogin';
 import AuthGuardContact from '@/_helpers/AuthGuardContact';
@@ -26,6 +26,7 @@ const PublicRouter = () => {
             <Route path="/boutique" element={<Boutique/>}/>
             <Route path="/connexion" element={<ULogin/>} />
             <Route path="/inscription" element={<Register />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/panier" element={<Cart />} />
 
 

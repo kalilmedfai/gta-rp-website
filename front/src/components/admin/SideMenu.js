@@ -53,6 +53,15 @@ const SideMenu = () => {
                                 Ajouter
                             </Nav.Link>
                         </Nav.Item>
+                        <Nav.Item>
+                            <h6>Articles</h6>
+                            <Nav.Link as={Link} to="/admin/article/index" onClick={handleClose}>
+                                Liste
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="/admin/article/add" onClick={handleClose}>
+                                Ajouter
+                            </Nav.Link>
+                        </Nav.Item>
                     </Nav>
                 </Offcanvas.Body>
             </Offcanvas>

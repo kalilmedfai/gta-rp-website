@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom'
 import { ALayout, Dashboard } from '@/pages/Admin'
 import { User, UEdit, Add } from '@/pages/Admin/User'
 import { AProduct, AProductEdit, AProductAdd } from '@/pages/Admin/Product'
+import { AArticle, AArticleEdit, AArticleAdd } from '@/pages/Admin/Article'
 
 import Error from '@/_utils/Error'
 
@@ -27,6 +28,12 @@ const AdminRouter = () => {
                     <Route path='edit/:productId' element={<AProductEdit/>}/>
                     <Route path='Add' element={<AProductAdd/>}/>
                 </Route>
+                <Route path='article'>
+                    <Route path="index" element={<AArticle />} />
+                    <Route path="add" element={<AArticleAdd />} />
+                    <Route path="edit/:articleId" element={<AArticleEdit />} />
+                </Route>
+                
                 <Route path='*' element={<Error/>}/>
             
             </Route>
